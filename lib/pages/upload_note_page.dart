@@ -1,4 +1,3 @@
-import 'package:berbagi_catatan/pages/notes_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -13,7 +12,6 @@ class _UploadNotePageState extends State<UploadNotePage> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController tagsController = TextEditingController();
   XFile? imageFile;
-
   final ImagePicker _picker = ImagePicker();
 
   void _pickImage() async {
@@ -27,10 +25,26 @@ class _UploadNotePageState extends State<UploadNotePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buat Catatan Baru'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Row(
+          children: [
+            Icon(Icons.menu_book, color: Colors.green), // Icon buku
+            SizedBox(width: 8), // Jarak antara icon dan tulisan
+            Text(
+              'Buat Catatan Baru',
+              style: TextStyle(
+                color: Colors.green,
+                fontSize: 22, // Ukuran lebih besar untuk judul
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,8 +53,10 @@ class _UploadNotePageState extends State<UploadNotePage> {
                 controller: titleController,
                 decoration: InputDecoration(
                   labelText: 'Judul Catatan',
-                  prefixIcon: Icon(Icons.note),
-                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.note, color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
               SizedBox(height: 16),
@@ -54,11 +70,16 @@ class _UploadNotePageState extends State<UploadNotePage> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: imageFile == null
-                      ? Center(child: Text('Upload Gambar Catatan'))
-                      : Image.file(
-                          File(imageFile!.path),
-                          fit: BoxFit.cover,
-                        ),
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add, size: 50, color: Colors.grey),
+                              Text('Upload Gambar Catatan', style: TextStyle(color: Colors.grey)),
+                            ],
+                          ),
+                        )
+                      : Image.file(File(imageFile!.path), fit: BoxFit.cover),
                 ),
               ),
               SizedBox(height: 16),
@@ -68,7 +89,9 @@ class _UploadNotePageState extends State<UploadNotePage> {
                 decoration: InputDecoration(
                   labelText: 'Deskripsi Catatan',
                   hintText: 'Jelaskan isi catatan yang kamu bagikan...',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
               SizedBox(height: 16),
@@ -76,36 +99,46 @@ class _UploadNotePageState extends State<UploadNotePage> {
                 controller: tagsController,
                 decoration: InputDecoration(
                   labelText: 'Tags',
-                  prefixIcon: Icon(Icons.tag),
+                  prefixIcon: Icon(Icons.tag, color: Colors.grey),
                   hintText: 'Ketikkan Tags',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
               SizedBox(height: 24),
-              Center(
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Batal'),
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start, // Supaya tombol ada di kiri
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red, // Background color merah untuk tombol "Batal"
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8), // Rounded corners
+                      ),
+                      elevation: 0, // Flat look
                     ),
-                    SizedBox(width: 16), // add some space between buttons
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => NotesPage()),
-                        );
-                      },
-                      icon: Icon(Icons.cloud_upload),
-                      label: Text('Unggah Catatan'),
-                    )
-                  ],
-                ),
-              )
+                    child: Text('Batal', style: TextStyle(color: Colors.white)),
+                  ),
+                  SizedBox(width: 16), // Jarak antara tombol "Batal" dan "Unggah Catatan"
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Implement upload functionality here
+                    },
+                    icon: Icon(Icons.cloud_upload, color: Colors.white),
+                    label: Text('Unggah Catatan'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green, // Background color untuk tombol "Unggah Catatan"
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

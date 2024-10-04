@@ -1,5 +1,7 @@
 import 'package:berbagi_catatan/models/note.dart';
+import 'package:berbagi_catatan/pages/login_page.dart';
 import 'package:berbagi_catatan/pages/upload_note_page.dart';
+import 'package:berbagi_catatan/widgets/note_card.dart';
 import 'package:flutter/material.dart';
 
 class NotesPage extends StatefulWidget {
@@ -10,11 +12,18 @@ class NotesPage extends StatefulWidget {
 class _NotesPageState extends State<NotesPage> {
   final List<Note> notes = [
     Note(
-      title: '',
-      author: '',
-      pages: '',
-      imageUrl: '',
+      title: 'Catatan 1',
+      author: 'Pengarang',
+      pages: '1 Halaman',
+      imageUrl: 'assets/1.jpg',
     ),
+    Note(
+      title: 'Catatan',
+      author: 'pengarang',
+      pages: '2 Halaman',
+      imageUrl: 'assets/1.jpg',
+    ),
+    // Add more notes as needed
   ];
 
   String searchQuery = '';
@@ -25,13 +34,18 @@ class _NotesPageState extends State<NotesPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.home_outlined,
             color: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
+          },
         ),
-        title: Row(
+        title: const Row(
           children: [
             Icon(
               Icons.menu_book,
@@ -56,8 +70,8 @@ class _NotesPageState extends State<NotesPage> {
                   child: TextField(
                     decoration: InputDecoration(
                         hintText: 'Search catatan...',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.search),
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.search),
                         suffixIcon: IconButton(
                           icon: Icon(Icons.clear,
                               color: searchQuery.isNotEmpty
@@ -79,36 +93,33 @@ class _NotesPageState extends State<NotesPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.filter_list),
+                  icon: const Icon(Icons.filter_list),
                   onPressed: () {
+                    // Implement filter functionality
                   },
                 ),
               ],
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(8.0),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: notes.length,
-                itemBuilder: (context, index) {
-                  final note = notes[index];
-                  if (searchQuery.isNotEmpty &&
-                      !note.title
-                          .toLowerCase()
-                          .contains(searchQuery.toLowerCase())) {
-                    return Container();
-                  }
-                  return null;
-                },
+            child: GridView.builder(
+              padding: const EdgeInsets.all(8.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
+              itemCount: notes.length,
+              itemBuilder: (context, index) {
+                final note = notes[index];
+                if (searchQuery.isNotEmpty &&
+                    !note.title
+                        .toLowerCase()
+                        .contains(searchQuery.toLowerCase())) {
+                  return Container();
+                }
+                return NoteCard(note: note, imageUrl: '',);
+              },
             ),
           ),
         ],
@@ -120,7 +131,7 @@ class _NotesPageState extends State<NotesPage> {
             MaterialPageRoute(builder: (context) => UploadNotePage()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
