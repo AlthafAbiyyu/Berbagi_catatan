@@ -12,11 +12,44 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
   void login() {
-    // Simulasi login, nanti bisa ditambahkan logika autentikasi
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => NotesPage()),
-    );
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Email dan password tidak boleh kosong'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Simulasi login, nanti bisa ditambahkan logika autentikasi
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Login Berhasil'),
+          content: const Text('Selamat, Anda telah berhasil login'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => NotesPage()),
+                );
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override

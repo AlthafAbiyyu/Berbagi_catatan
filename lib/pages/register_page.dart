@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -12,10 +11,26 @@ class _RegisterPageState extends State<RegisterPage> {
       TextEditingController();
 
   void register() {
-    if (passwordController.text == confirmPasswordController.text) {
-      print('Registrasi berhasil');
-      Navigator.pop(context); // Kembali ke halaman login setelah registrasi
-    } else {
+    if (emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text(
+              'Email, password, dan konfirmasi password tidak boleh kosong'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else if (passwordController.text != confirmPasswordController.text) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -24,7 +39,25 @@ class _RegisterPageState extends State<RegisterPage> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Register Berhasil'),
+          content: const Text('Selamat, Anda telah berhasil register'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pop(
+                    context); // Kembali ke halaman login setelah registrasi
               },
               child: const Text('OK'),
             ),
@@ -80,13 +113,27 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 16),
             Center(
-              child: ElevatedButton(
-                onPressed: register,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  primary: Colors.teal,
-                ),
-                child: const Text('DAFTAR'),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: register,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 50),
+                      primary: Colors.teal,
+                    ),
+                    child: const Text('DAFTAR'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Kembali ke halaman login
+                    },
+                    child: const Text(
+                      'Sudah punya akun? Masuk sekarang',
+                      style: TextStyle(color: Colors.teal),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
