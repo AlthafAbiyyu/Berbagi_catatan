@@ -1,21 +1,21 @@
+import 'package:berbagi_catatan/components/dropdown.dart';
 import 'package:berbagi_catatan/models/note.dart';
 import 'package:berbagi_catatan/pages/favorit_page.dart';
+import 'package:berbagi_catatan/pages/notes_page.dart';
 import 'package:berbagi_catatan/pages/upload_note_page.dart';
-import 'package:berbagi_catatan/pages/uploaded_page.dart';
 import 'package:berbagi_catatan/widgets/note_card.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class NotesPage extends StatefulWidget {
+class UploadedPage extends StatefulWidget {
   @override
-  _NotesPageState createState() => _NotesPageState();
+  _UploadedPageState createState() => _UploadedPageState();
 }
 
-class _NotesPageState extends State<NotesPage> {
+class _UploadedPageState extends State<UploadedPage> {
   List<Note> notes = [
     Note(
       title: 'Sistem Tata Surya || Kelas 7',
-      author: 'Suwanda Fitri Nafiah',
+      author: 'Dibuat oleh kamu',
       pages: '10 Halaman',
       imageUrl: 'assets/1.jpg',
       waktu: 1,
@@ -24,7 +24,7 @@ class _NotesPageState extends State<NotesPage> {
     ),
     Note(
       title: 'Tugas 1',
-      author: 'Suwanda Fitri Nafiah',
+      author: 'Dibuat oleh kamu',
       pages: '10 Halaman',
       imageUrl: 'assets/1.jpg',
       waktu: 2,
@@ -33,28 +33,10 @@ class _NotesPageState extends State<NotesPage> {
     ),
     Note(
       title: 'Matematika',
-      author: 'Suwanda Fitri Nafiah',
+      author: 'Dibuat oleh kamu',
       pages: '10 Halaman',
       imageUrl: 'assets/1.jpg',
       waktu: 3,
-      jenjang: 'SMA',
-      mapel: 'Astro',
-    ),
-    Note(
-      title: 'Sistem Tata Surya || Kelas 7',
-      author: 'Suwanda Fitri Nafiah',
-      pages: '10 Halaman',
-      imageUrl: 'assets/1.jpg',
-      waktu: 1,
-      jenjang: 'SMA',
-      mapel: 'Astro',
-    ),
-    Note(
-      title: 'Sistem Tata Surya || Kelas 7',
-      author: 'Suwanda Fitri Nafiah',
-      pages: '10 Halaman',
-      imageUrl: 'assets/1.jpg',
-      waktu: 1,
       jenjang: 'SMA',
       mapel: 'Astro',
     ),
@@ -181,30 +163,29 @@ class _NotesPageState extends State<NotesPage> {
             ),
             ListTile(
               leading: Icon(
-                Icons.favorite,
-                color: Colors.red,
+                Icons.home,
               ),
-              title: Text('Favorite'),
+              title: Text('Home'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FavoritePage(),
+                    builder: (context) => NotesPage(),
                   ),
                 );
               },
             ),
             ListTile(
               leading: Icon(
-                Icons.upload,
-                color: Colors.blue,
+                Icons.favorite,
+                color: Colors.red,
               ),
-              title: Text('Uploaded'),
+              title: Text('Favorited'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UploadedPage(),
+                    builder: (context) => FavoritePage(),
                   ),
                 );
               },
@@ -215,45 +196,12 @@ class _NotesPageState extends State<NotesPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 150,
-              width: double.infinity,
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(0),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/2.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-            SmoothPageIndicator(
-              controller: _pageController,
-              count: 5,
-              effect: const WormEffect(
-                dotHeight: 6,
-                dotWidth: 30,
-                activeDotColor: Colors.green,
-                dotColor: Colors.grey,
-                spacing: 8,
-                strokeWidth: 1,
-              ),
-            ),
-            const SizedBox(height: 8),
             const Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "Lihat Catatan Teman Kalian Disini!! 👀",
+                  "Di sinilah catatan yang kamu sukai! 😻",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -261,6 +209,27 @@ class _NotesPageState extends State<NotesPage> {
                 ),
               ),
             ),
+            const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: RoleDropdown(
+                            hintText: "Berdasarkan \nTanggal",
+                            items: ["1", "2"])),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                        child: RoleDropdown(
+                            hintText: "Urutkan \n",
+                            items: ["Terbaru", "Terlama"])),
+                    SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                )),
+            const SizedBox(height: 12),
             if (filteredNotes.isEmpty)
               const Padding(
                 padding: EdgeInsets.all(8.0),

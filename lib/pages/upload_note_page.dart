@@ -26,10 +26,13 @@ class _UploadNotePageState extends State<UploadNotePage> {
     if (titleController.text.isNotEmpty &&
         descriptionController.text.isNotEmpty) {
       final note = Note(
+        jenjang: 'SMA',
+        mapel: 'Astro',
         title: titleController.text,
         author: 'Anda',
         pages: '1 Halaman',
         imageUrl: imageFile != null ? imageFile!.path : '',
+        waktu: 1,
       );
       Navigator.pop(context, note);
     } else {

@@ -29,7 +29,7 @@ class NoteCard extends StatelessWidget {
             children: [
               Container(
                 width: 80,
-                height: 120,
+                height: 140,
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
@@ -42,11 +42,45 @@ class NoteCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color.fromRGBO(91, 176, 134, 1)),
+                          child: Text(
+                            note.jenjang,
+                            style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color.fromRGBO(91, 176, 134, 1)),
+                          child: Text(
+                            note.mapel,
+                            style: TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
                     Text(
                       note.title,
                       style: const TextStyle(
@@ -56,24 +90,47 @@ class NoteCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 0),
                     Text(
                       note.author,
                       style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                        color: Color.fromRGBO(91, 176, 134, 1),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      "${note.pages}",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.article_outlined,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          "${note.pages}",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Expanded(child: Container()),
+                        Icon(
+                          Icons.timelapse,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          "${note.waktu} Jam Yang Lalu",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
